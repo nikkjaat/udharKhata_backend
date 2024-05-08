@@ -1,4 +1,7 @@
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://udharkhata-backend.onrender.com",
+];
 
 const corsOptions = {
   origin: (origin, callback) => {
