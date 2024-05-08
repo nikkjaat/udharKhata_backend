@@ -249,6 +249,7 @@ exports.changeNumber = async (req, res, next) => {
   // Your Twilio Account SID and Auth Token
   const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
   const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
+  const twilioNumber = process.env.TWILIO_NUMBER;
 
   // Create Twilio client
   const client = twilio(twilioAccountSid, twilioAuthToken);
@@ -280,7 +281,7 @@ exports.changeNumber = async (req, res, next) => {
       client.messages.create({
         body: `Your OTP is: ${otp}`,
         to: `+91${phoneNumber}`,
-        from: "+16613472824",
+        from: twilioNumber,
       });
 
       res.status(200).json({ message: "OTP sent Successfully", otp: otp });
