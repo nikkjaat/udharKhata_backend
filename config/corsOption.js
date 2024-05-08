@@ -1,5 +1,5 @@
 const allowedOrigins = [
-  "http://localhost:3000",
+  "http://localhost:3002",
   "https://udharkhata-backend.onrender.com",
 ];
 
