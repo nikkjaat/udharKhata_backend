@@ -1,6 +1,6 @@
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://udhar-khata-frontend-9axf.vercel.app",
+  "https://udhar-khata-frontend.vercel.app",
 ];
 
 const corsOptions = {
