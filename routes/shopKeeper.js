@@ -20,6 +20,7 @@ const {
   changeNumber,
   verifyOTP,
   verifyNewNumber,
+  submitOTP,
 } = require("../controllers/shopkeeper");
 const isAuth = require("../middleware/isAuth");
 
@@ -32,6 +33,7 @@ router.delete("/deletecustomer", isAuth, deleteCustomer);
 router.post("/getotp", isAuth, getOTP);
 router.post("/changenumber", isAuth, changeNumber);
 router.post("/verifyotp", isAuth, verifyOTP);
+router.post("/submitotp", isAuth, submitOTP);
 router.post("/verifynewnumber", isAuth, verifyNewNumber);
 router.get("/getcustomer", isAuth, getCustomer);
 router.get("/getcustomerdata", isAuth, getCustomerData);

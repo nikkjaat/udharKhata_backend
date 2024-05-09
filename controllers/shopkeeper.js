@@ -244,80 +244,174 @@ exports.getOTP = async (req, res, next) => {
 };
 
 exports.changeNumber = async (req, res, next) => {
+  // const number = req.query.number;
+  // // Your Twilio Account SID and Auth Token
+  // const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+  // const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
+  // const twilioNumber = process.env.TWILIO_NUMBER;
+  // // Create Twilio client
+  // const client = twilio(twilioAccountSid, twilioAuthToken);
+  // // Function to generate a random OTP
+  // function generateOTP() {
+  //   const digits = "0123456789";
+  //   let otp = "";
+  //   for (let i = 0; i < 6; i++) {
+  //     otp += digits[Math.floor(Math.random() * 10)];
+  //   }
+  //   return otp;
+  // }
+  // const sendOTP = async (phoneNumber, otp) => {
+  //   // console.log(req.user.number);
+  //   const cDate = new Date();
+  //   await User.findOneAndUpdate(
+  //     { number: req.user.number },
+  //     { otp: otp, otpExpiration: new Date(cDate.getTime()) },
+  //     {
+  //       upsert: true,
+  //       new: true,
+  //       setDefaultsOnInsert: true,
+  //     }
+  //   );
+  //   try {
+  //     client.messages.create({
+  //       body: `Your OTP is: ${otp}`,
+  //       to: `+91${phoneNumber}`,
+  //       from: twilioNumber,
+  //     });
+  //     res.status(200).json({ message: "OTP sent Successfully", otp: otp });
+  //   } catch (err) {
+  //     res.status(500).json({ message: err });
+  //   }
+  // };
+  // // Example usage
+  // const phoneNumber = number; // Replace with the recipient's phone number
+  // const otp = generateOTP();
+  // sendOTP(phoneNumber, otp);
+
   const number = req.query.number;
+
+  // console.log(number);
 
   // Your Twilio Account SID and Auth Token
   const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
   const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
-  const twilioNumber = process.env.TWILIO_NUMBER;
+  const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
 
-  // Create Twilio client
-  const client = twilio(twilioAccountSid, twilioAuthToken);
+  // Initialize Twilio client
+  const client = require("twilio")(twilioAccountSid, twilioAuthToken);
 
-  // Function to generate a random OTP
-  function generateOTP() {
-    const digits = "0123456789";
-    let otp = "";
-    for (let i = 0; i < 6; i++) {
-      otp += digits[Math.floor(Math.random() * 10)];
+  async function sendVerificationCode(phoneNumber) {
+    try {
+      const verification = await client.verify.v2
+        .services(twilioServiceSID)
+        .verifications.create({
+          to: `+91${phoneNumber}`,
+          channel: "sms",
+          timeToLive: 60,
+        });
+      return verification;
+    } catch (error) {
+      throw error;
     }
-    return otp;
   }
 
-  const sendOTP = async (phoneNumber, otp) => {
-    // console.log(req.user.number);
-
-    const cDate = new Date();
-    await User.findOneAndUpdate(
-      { number: req.user.number },
-      { otp: otp, otpExpiration: new Date(cDate.getTime()) },
-      {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true,
-      }
-    );
-    try {
-      client.messages.create({
-        body: `Your OTP is: ${otp}`,
-        to: `+91${phoneNumber}`,
-        from: twilioNumber,
-      });
-
-      res.status(200).json({ message: "OTP sent Successfully", otp: otp });
-    } catch (err) {
-      res.status(500).json({ message: err });
-    }
-  };
-
-  // Example usage
-  const phoneNumber = number; // Replace with the recipient's phone number
-  const otp = generateOTP();
-  sendOTP(phoneNumber, otp);
+  sendVerificationCode(number)
+    .then((verification) => {
+      // Handle success
+      res.status(200).json({ message: "OTP sent successfully", verification });
+    })
+    .catch((error) => {
+      // Handle error
+      res
+        .status(500)
+        .json({ message: "Error sending OTP", error: error.message });
+    });
 };
 
 exports.verifyOTP = async (req, res, next) => {
-  const { otp } = req.body;
-  try {
-    if (otp != req.user.otp) {
-      return res.status(404).json({ message: "Invalid OTP" });
-    }
+  // const { otp } = req.body;
+  // try {
+  //   if (otp != req.user.otp) {
+  //     return res.status(404).json({ message: "Invalid OTP" });
+  //   }
 
-    const isOtpExpired = otpVerified(req.user.otpExpiration);
-    if (isOtpExpired) {
-      return res.status(403).json({ message: "Your OTP has been Expired" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "OTP Verification Success" });
-  } catch (error) {
-    res.status(500).json({ message: error });
+  //   const isOtpExpired = otpVerified(req.user.otpExpiration);
+  //   if (isOtpExpired) {
+  //     return res.status(403).json({ message: "Your OTP has been Expired" });
+  //   }
+  //   res
+  //     .status(200)
+  //     .json({ success: true, message: "OTP Verification Success" });
+  // } catch (error) {
+  //   res.status(500).json({ message: error });
+  // }
+  let { number, otp } = req.body;
+  // console.log(req.user);
+  // if (otp != req.user.otp) {
+  //   return res.status(404).json({ message: "Invalid OTP" });
+  // }
+
+  // const isOtpExpired = otpVerified(req.user.otpExpiration);
+  // if (isOtpExpired) {
+  //   return res.status(403).json({ message: "Your OTP has been Expired" });
+  // }
+
+  const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+  const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
+  const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
+
+  number = String(number);
+  if (number.startsWith(0)) {
+    number = number.slice(1);
   }
+
+  // let customer = await Customer.find({ number: number, otp: otp });
+  // if (customer.length === 0) {
+  //   return res.status(404).json({ message: "Invalid OTP" });
+  // }
+
+  // const isOtpExpired = otpVerified(customer[0].otpExpiration);
+  // if (isOtpExpired) {
+  //   return res.status(403).json({ message: "Your OTP has been Expired" });
+  // }
+
+  const client = require("twilio")(twilioAccountSid, twilioAuthToken);
+
+  async function verifyCode(phoneNumber, code) {
+    try {
+      const verificationCheck = await client.verify.v2
+        .services(twilioServiceSID)
+        .verificationChecks.create({
+          to: `+91${phoneNumber}`,
+          code: code,
+        });
+      return verificationCheck;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  verifyCode(number, otp)
+    .then((verificationCheck) => {
+      if (verificationCheck.status === "approved") {
+        // Phone number verified successfully
+
+        res.status(200).json({ message: "Number Verified successfully" });
+      } else {
+        // Verification failed
+        res.status(404).json("Invalid OTP");
+      }
+    })
+    .catch((error) => {
+      // Handle error
+      res.status(500).json({ message: error.message });
+    });
 };
 
 exports.verifyNewNumber = async (req, res, next) => {
-  const { number } = req.body;
   const myCustomer = req.user.myCustomer;
+  const { number } = req.body;
+  console.log(number);
 
   try {
     for (const customer of myCustomer) {
@@ -381,7 +475,7 @@ exports.verifyNewNumber = async (req, res, next) => {
   sendOTP(phoneNumber, otp);
 };
 
-exports.verifyOTP = async (req, res, next) => {
+exports.submitOTP = async (req, res, next) => {
   const { otp } = req.body;
   try {
     if (otp != req.user.otp) {
