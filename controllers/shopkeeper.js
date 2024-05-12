@@ -4,6 +4,7 @@ const Chat = require("../models/Chat");
 const twilio = require("twilio");
 const User = require("../models/User");
 const { otpVerified } = require("../helper/verifiedOTP");
+const PaidAmount = require("../models/PaidAmount");
 
 exports.addProduct = async (req, res, next) => {
   const { name, price, userId } = req.body;
@@ -644,4 +645,29 @@ exports.getAdminProduct = async (req, res, next) => {
     message: "Customer Product fetched Successfully",
     data: customerProduct.myCustomer,
   });
+};
+
+exports.paidAmount = async (req, res, next) => {
+  const { userId, amount, paidBy } = req.body;
+  try {
+    // check if customer Exist or not
+    const customer = await Customer.find({ _id: userId });
+    if (!customer) {
+      return res.status(404).json("Customer not found");
+    }
+
+    await PaidAmount.create(req.body);
+    res.status(200).json("Amount paid Successfully");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.getPaidAmount = async (req, res, next) => {
+  try {
+    const data = await PaidAmount.find({});
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
 };
