@@ -648,10 +648,11 @@ exports.getAdminProduct = async (req, res, next) => {
 };
 
 exports.paidAmount = async (req, res, next) => {
-  const { userId, amount, paidBy } = req.body;
+  const { customerId, adminId, amount, paidBy } = req.body;
+  console.log(customerId);
   try {
     // check if customer Exist or not
-    const customer = await Customer.find({ _id: userId });
+    const customer = await Customer.find({ _id: customerId });
     if (!customer) {
       return res.status(404).json("Customer not found");
     }
@@ -664,10 +665,22 @@ exports.paidAmount = async (req, res, next) => {
 };
 
 exports.getPaidAmount = async (req, res, next) => {
+  const { adminId, customerId } = req.query;
+
+  if (!adminId || !customerId) {
+    return res.status(400).json({ message: "Missing adminId or customerId" });
+  }
+
   try {
-    const data = await PaidAmount.find({});
+    const data = await PaidAmount.find({ adminId, customerId });
+    if (!data.length) {
+      return res.status(404).json({ message: "No paid amounts found" });
+    }
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json(error.message);
+    console.error("Error fetching paid amounts:", error);
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };

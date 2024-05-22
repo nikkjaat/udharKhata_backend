@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const PaidAmountSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
+    adminId: { type: String, required: true },
+    customerId: { type: String, required: true },
     amount: { type: Number, required: true },
     paidBy: String,
   },
