@@ -8,7 +8,7 @@ const PaidAmount = require("../models/PaidAmount");
 
 exports.addProduct = async (req, res, next) => {
   const { name, price, userId } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     await Product.create({
       name,
