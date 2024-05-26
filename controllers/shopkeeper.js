@@ -649,7 +649,7 @@ exports.getAdminProduct = async (req, res, next) => {
 };
 
 exports.paidAmount = async (req, res, next) => {
-  const { customerId, adminId, amount, paidBy } = req.body;
+  const { customerId } = req.body;
   console.log(customerId);
   try {
     // check if customer Exist or not
@@ -674,8 +674,8 @@ exports.getPaidAmount = async (req, res, next) => {
 
   try {
     const data = await PaidAmount.find({ adminId, customerId });
-    if (!data.length) {
-      return res.status(404).json({ message: "No paid amounts found" });
+    if (data.length === 0) {
+      return res.status(204).json("No paid amounts");
     }
     res.status(200).json(data);
   } catch (error) {
@@ -683,5 +683,37 @@ exports.getPaidAmount = async (req, res, next) => {
     res
       .status(500)
       .json({ message: "Internal Server Error", error: error.message });
+  }
+};
+
+exports.getPaidAmountId = async (req, res, next) => {
+  try {
+    const data = await PaidAmount.findById(req.query.id);
+    if (!data) {
+      return res
+        .status(404)
+        .json(`Amount not available to match this id = ${req.query.id}`);
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.updatePaidAmount = async (req, res, next) => {
+  try {
+    await PaidAmount.findByIdAndUpdate(req.query.id, req.body);
+    res.status(200).json("Updated Successfully");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.deletePaidAmount = async (req, res, next) => {
+  try {
+    await PaidAmount.findByIdAndDelete(req.query.id);
+    res.status(200).json("Deleted Successfully");
+  } catch (error) {
+    res.status(500).json(error.message);
   }
 };
