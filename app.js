@@ -28,12 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
+const orderRoutes = require("./routes/order");
 const adminRoutes = require("./routes/shopKeeper");
 const userRoutes = require("./routes/user");
 const chatRoutes = require("./routes/chat");
 const customerRoute = require("./routes/customer");
 
 app.use(userRoutes);
+app.use(orderRoutes);
 app.use("/message", chatRoutes);
 app.use("/admin", adminRoutes);
 app.use("/user", customerRoute);

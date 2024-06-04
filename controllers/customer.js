@@ -47,7 +47,7 @@ exports.getMyProducts = async (req, res, next) => {
 
 exports.getItemsDetails = async (req, res, next) => {
   const userId = req.query.userId;
-  // console.log(userId);
+
   try {
     const myItems = await Shop.find({ userId });
     if (myItems.length === 0) {

@@ -26,6 +26,7 @@ const {
   getPaidAmountId,
   updatePaidAmount,
   deletePaidAmount,
+  deleteAllData,
 } = require("../controllers/shopkeeper");
 const isAuth = require("../middleware/isAuth");
 
@@ -47,10 +48,11 @@ router.put("/updateproduct", isAuth, updateProduct);
 router.delete("/deleteproduct", isAuth, deleteProduct);
 router.get("/filtercustomer", isAuth, filterCustomer);
 router.get("/getadmincustomers", isAuth, getAdminProduct);
-router.post("/paidamount", isAuth, paidAmount);
+router.post("/paidamount", paidAmount);
 router.get("/getpaidamount", getPaidAmount);
 router.get("/getpaidamountbyid", getPaidAmountId);
 router.put("/updatepaidamount", updatePaidAmount);
 router.delete("/deletepaidamount", deletePaidAmount);
+router.delete("/deletealldata", deleteAllData);
 
 module.exports = router;

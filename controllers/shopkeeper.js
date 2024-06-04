@@ -650,7 +650,7 @@ exports.getAdminProduct = async (req, res, next) => {
 
 exports.paidAmount = async (req, res, next) => {
   const { customerId } = req.body;
-  console.log(customerId);
+  // console.log(customerId);
   try {
     // check if customer Exist or not
     const customer = await Customer.find({ _id: customerId });
@@ -715,5 +715,17 @@ exports.deletePaidAmount = async (req, res, next) => {
     res.status(200).json("Deleted Successfully");
   } catch (error) {
     res.status(500).json(error.message);
+  }
+};
+
+exports.deleteAllData = async (req, res, next) => {
+  const { adminId, customerId } = req.query;
+  console.log(req.query);
+  try {
+    await PaidAmount.deleteMany({ adminId, customerId });
+    await Product.deleteMany({ userId: customerId });
+    res.status(200).json("Deleted Successfully");
+  } catch (error) {
+    res.status(500).json(error);
   }
 };
