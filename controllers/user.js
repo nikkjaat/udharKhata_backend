@@ -36,6 +36,7 @@ exports.postSignup = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   let { number, password } = req.body;
+  console.log(number);
   number = String(number);
   // const cleanedNumber = number.replace(/^0+/, "");
   if (number.startsWith(0)) {
