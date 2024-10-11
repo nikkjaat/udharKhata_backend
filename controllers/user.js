@@ -42,7 +42,7 @@ exports.postLogin = async (req, res, next) => {
     number = number.slice(1);
   }
 
-  // console.log(cleanedNumber);
+  console.log(cleanedNumber);
   const user = await User.findOne({ number: number });
   try {
     if (!user) {
