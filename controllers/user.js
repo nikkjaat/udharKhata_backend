@@ -189,9 +189,9 @@ exports.getOtp = async (req, res, next) => {
 };
 
 exports.postUserLogin = async (req, res, next) => {
-  // const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-  // const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
-  // const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
+  const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+  const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
+  const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
   let { number, otp } = req.body;
     console.log(number);
   number = String(number);
