@@ -18,13 +18,12 @@ const PORT = process.env.PORT;
 //CORS POLICY
 const cors = require("cors");
 const corsOptions = require("./config/corsOption");
-app.use(cors({
-  origin: 'https://udharkhata.netlify.app'
-}));
+
 
 //DATABASE
 const connectDB = require("./database/database");
 connectDB();
+app.options('*', cors(corsOptions)); // Enable preflight across-the-board
 
 // app.use(cors(corsOptions));
 app.use(express.json());
