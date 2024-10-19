@@ -12,8 +12,8 @@ const corsOptions = {
       callback(new Error("Not allowed to access"));
     }
   },
-  credentials: true,
+  credentials: true, // Allow credentials
   optionsSuccessStatus: 200,
 };
 
-module.exports = corsOptions;
+
