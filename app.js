@@ -23,7 +23,11 @@ const corsOptions = require("./config/corsOption");
 //DATABASE
 const connectDB = require("./database/database");
 connectDB();
-app.options('*', cors(corsOptions)); // Enable preflight across-the-board
+
+app.use(cors({
+  origin: '*',
+  credentials: true,
+}));
 
 // app.use(cors(corsOptions));
 app.use(express.json());
