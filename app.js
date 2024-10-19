@@ -18,18 +18,15 @@ const PORT = process.env.PORT;
 //CORS POLICY
 const cors = require("cors");
 const corsOptions = require("./config/corsOption");
-
+app.use(cors(corsOptions));
 
 //DATABASE
 const connectDB = require("./database/database");
 connectDB();
 
-app.use(cors({
-  origin: '*',
-  credentials: true,
-}));
 
-// app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
