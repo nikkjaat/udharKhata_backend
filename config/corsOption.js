@@ -2,6 +2,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://udhar-khata-frontend.vercel.app",
   "https://udharkhata.netlify.app",
+  "https://udhaarkhatafrontend.netlify.app"
 ];
 
 const corsOptions = {
