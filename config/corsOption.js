@@ -1,3 +1,5 @@
+const cors = require('cors');
+
 const allowedOrigins = [
   "http://localhost:3000",
   "https://udhar-khata-frontend.vercel.app",
@@ -8,7 +10,7 @@ const allowedOrigins = [
 const corsOptions = {
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
+      callback(null, origin); // Use the exact origin
     } else {
       callback(new Error("Not allowed to access"));
     }
@@ -17,4 +19,4 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-
+app.use(cors(corsOptions));
