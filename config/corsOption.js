@@ -1,5 +1,5 @@
 const allowedOrigins = [
-  "https://udhaarkhatafrontend.netlify.app/",
+  "https://udhaarkhatafrontend.netlify.app",
 ];
 
 const corsOptions = {
