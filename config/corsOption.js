@@ -1,4 +1,4 @@
-const cors = require('cors');
+
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -19,7 +19,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+
 
 
 
