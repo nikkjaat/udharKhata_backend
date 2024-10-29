@@ -20,7 +20,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOption");
 // Apply CORS middleware
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Enable preflight across-the-board
+// app.options('*', cors(corsOptions)); // Enable preflight across-the-board
 
 
 //DATABASE
