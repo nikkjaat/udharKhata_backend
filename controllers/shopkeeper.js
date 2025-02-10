@@ -503,7 +503,7 @@ exports.getCustomer = async (req, res, next) => {
     if (customers.length === 0) {
       return res
         .status(200)
-        .json({ message: "Customer not Available", data: [] });
+        .json({ message: "Customer not Exists", data: [] });
     }
     res.status(200).json({ message: "Customer Fetched", data: customers });
   } catch (err) {
