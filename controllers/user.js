@@ -36,13 +36,14 @@ exports.postSignup = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   let { number, password } = req.body;
+  console.log(number);
   number = String(number);
   // const cleanedNumber = number.replace(/^0+/, "");
   if (number.startsWith(0)) {
     number = number.slice(1);
   }
 
-  // console.log(cleanedNumber);
+  console.log(cleanedNumber);
   const user = await User.findOne({ number: number });
   try {
     if (!user) {
@@ -192,7 +193,7 @@ exports.postUserLogin = async (req, res, next) => {
   const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
   const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
   let { number, otp } = req.body;
-
+    console.log(number);
   number = String(number);
   if (number.startsWith(0)) {
     number = number.slice(1);
