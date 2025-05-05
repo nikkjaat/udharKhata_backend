@@ -7,8 +7,7 @@ const jwt = require("jsonwebtoken");
 
 exports.postSignup = async (req, res, next) => {
   let { name, number, password } = req.body;
-  // console.log(number);
-  // const cleanedNumber = number.replace(/^0+/, "");
+
   number = String(number);
   if (number.startsWith(0)) {
     number = number.slice(1);
@@ -36,7 +35,7 @@ exports.postSignup = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   let { number, password } = req.body;
-  console.log(number);
+  // console.log(number);
   number = String(number);
   // const cleanedNumber = number.replace(/^0+/, "");
   if (number.startsWith(0)) {
@@ -64,76 +63,13 @@ exports.postLogin = async (req, res, next) => {
   }
 
   const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1d",
+    expiresIn: "",
   });
 
   res
     .status(200)
     .json({ message: "User Login Successfully", authToken, admin: true });
 };
-
-// CUSTOMER CONTROLLER
-
-// exports.getOtp = async (req, res, next) => {
-//   let number = req.query.number;
-
-//   number = String(number);
-//   // const cleanedNumber = number.replace(/^0+/, "");
-//   if (number.startsWith(0)) {
-//     number = number.slice(1);
-//   }
-
-//   let customer = await Customer.find({ number: number });
-
-//   if (customer.length === 0) {
-//     return res.status(404).json({ message: "Customer not found" });
-//   }
-
-//   const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-//   const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
-//   const twilioNumber = process.env.TWILIO_NUMBER;
-
-//   // Create Twilio client
-//   const client = twilio(twilioAccountSid, twilioAuthToken);
-
-//   // Function to generate a random OTP
-//   function generateOTP() {
-//     const digits = "0123456789";
-//     let otp = "";
-//     for (let i = 0; i < 6; i++) {
-//       otp += digits[Math.floor(Math.random() * 10)];
-//     }
-//     return otp;
-//   }
-//   const sendOTP = async (phoneNumber, otp) => {
-//     const cDate = new Date();
-//     await Customer.updateMany(
-//       { number: number },
-//       { $set: { otp: otp, otpExpiration: new Date(cDate.getTime()) } },
-//       {
-//         upsert: true,
-//         new: true,
-//         setDefaultsOnInsert: true,
-//       }
-//     );
-//     try {
-//       client.messages.create({
-//         body: `Your OTP is: ${otp}`,
-//         to: `+91${phoneNumber}`,
-//         from: twilioNumber,
-//       });
-
-//       res.status(200).json({ message: "OTP sent Successfully", otp: otp });
-//     } catch (err) {
-//       res.status(500).json({ message: err });
-//     }
-//   };
-
-//   // Example usage
-//   const phoneNumber = number; // Replace with the recipient's phone number
-//   const otp = generateOTP();
-//   sendOTP(phoneNumber, otp);
-// };
 
 exports.getOtp = async (req, res, next) => {
   let number = req.query.number;
@@ -161,6 +97,7 @@ exports.getOtp = async (req, res, next) => {
   const client = require("twilio")(twilioAccountSid, twilioAuthToken);
 
   async function sendVerificationCode(phoneNumber) {
+    // console.log(phoneNumber);
     try {
       const verification = await client.verify.v2
         .services(twilioServiceSID)
@@ -193,21 +130,11 @@ exports.postUserLogin = async (req, res, next) => {
   const twilioAuthToken = process.env.TWILIO_AUTHTOKEN;
   const twilioServiceSID = process.env.TWILIO_SERVICE_SID;
   let { number, otp } = req.body;
-    console.log(number);
+  // console.log(number);
   number = String(number);
   if (number.startsWith(0)) {
     number = number.slice(1);
   }
-
-  // let customer = await Customer.find({ number: number, otp: otp });
-  // if (customer.length === 0) {
-  //   return res.status(404).json({ message: "Invalid OTP" });
-  // }
-
-  // const isOtpExpired = otpVerified(customer[0].otpExpiration);
-  // if (isOtpExpired) {
-  //   return res.status(403).json({ message: "Your OTP has been Expired" });
-  // }
 
   const client = require("twilio")(twilioAccountSid, twilioAuthToken);
 

@@ -1,16 +1,8 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
-});
 
 //PORT
 const PORT = process.env.PORT;
@@ -22,13 +14,9 @@ const corsOptions = require("./config/corsOption");
 app.use(cors(corsOptions));
 // app.options('*', cors(corsOptions)); // Enable preflight across-the-board
 
-
 //DATABASE
 const connectDB = require("./database/database");
 connectDB();
-
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -45,21 +33,6 @@ app.use(orderRoutes);
 app.use("/message", chatRoutes);
 app.use("/admin", adminRoutes);
 app.use("/user", customerRoute);
-
-// io.on("connection", (socket) => {
-//   console.log("New client connected", socket.id);
-
-//   // Example: Handling chat messages
-//   socket.on("chatMessage", (message) => {
-//     console.log("Received message:", message);
-//     io.emit("chatMessage", message); // Broadcast message to all connected clients
-//   });
-
-//   // Handle disconnection
-//   socket.on("disconnect", () => {
-//     console.log("Client disconnected");
-//   });
-// });
 
 mongoose.connection.once("open", () => {
   console.log("Connected to Databse");

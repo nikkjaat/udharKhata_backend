@@ -47,7 +47,7 @@ exports.getOTP = async (req, res, next) => {
       client.messages.create({
         body: `Your OTP is: ${otp}`,
         to: `+91${phoneNumber}`,
-        from: "+16613472824",
+        from: "+12192487094",
       });
 
       res.status(200).json({ message: "OTP sent Successfully", otp: otp });

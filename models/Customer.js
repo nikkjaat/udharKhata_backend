@@ -38,6 +38,14 @@ const addCustomer = new mongoose.Schema({
     get: (otpExpiration) => otpExpiration.getTime(),
     set: (otpExpiration) => new Date(otpExpiration),
   },
+  totalAmount: {
+    type: Number,
+    default: 0,
+  },
+  paidAmount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Customer", addCustomer);
