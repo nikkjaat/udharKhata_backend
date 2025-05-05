@@ -1,6 +1,6 @@
 const allowedOrigins = [
   "https://udhaarkhata.netlify.app",
-  // "http://localhost:3000",
+  "http://localhost:3000",
 ];
 
 const corsOptions = {
