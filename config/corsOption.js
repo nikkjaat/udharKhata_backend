@@ -1,5 +1,5 @@
 const allowedOrigins = [
-  "https://udharkhata-backend-rqxj.onrender.com",
+  "https://udhaarkhatafrontend.netlify.app/login",
   "http://localhost:3000",
 ];
 
