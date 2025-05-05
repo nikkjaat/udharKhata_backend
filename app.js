@@ -11,9 +11,7 @@ const PORT = process.env.PORT;
 const cors = require("cors");
 const corsOptions = require("./config/corsOption");
 // Apply CORS middleware
-// app.use(cors(corsOptions));
-app.use(cors());
-// app.options('*', cors(corsOptions)); // Enable preflight across-the-board
+app.use(cors(corsOptions));
 
 //DATABASE
 const connectDB = require("./database/database");
