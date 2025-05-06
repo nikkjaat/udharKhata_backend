@@ -62,9 +62,7 @@ exports.postLogin = async (req, res, next) => {
     res.status(500).json({ message: err.message });
   }
 
-  const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "",
-  });
+  const authToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY);
 
   res
     .status(200)
