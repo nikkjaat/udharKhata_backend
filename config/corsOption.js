@@ -1,6 +1,6 @@
 const allowedOrigins = [
   "https://udhaarkhata.netlify.app",
-  "https://udharkhata.netlify.app/",
+  "https://udharkhata.netlify.app",
   "http://localhost:3000",
 ];
 
