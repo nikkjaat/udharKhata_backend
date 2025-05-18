@@ -182,13 +182,6 @@ exports.addCustomer = async (req, res, next) => {
   //   });
 
   try {
-    const existingCustomer = await Customer.findOne({ number });
-    if (existingCustomer) {
-      return res.status(403).json({ message: "Customer Already Exists" });
-    }
-
-    // console.log(req.user, otp);
-
     if (req.user.otp !== otp || req.user.otpExpiration < new Date()) {
       return res.status(403).json({ message: "Invalid OTP" });
     }
