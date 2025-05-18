@@ -35,8 +35,6 @@ const addCustomer = new mongoose.Schema({
   otpExpiration: {
     type: Date,
     default: Date.now,
-    get: (otpExpiration) => otpExpiration.getTime(),
-    set: (otpExpiration) => new Date(otpExpiration),
   },
   totalAmount: {
     type: Number,

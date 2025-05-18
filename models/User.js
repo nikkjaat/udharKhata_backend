@@ -18,9 +18,6 @@ const UserSchema = new mongoose.Schema({
   },
   otpExpiration: {
     type: Date,
-    default: Date.now,
-    get: (otpExpiration) => otpExpiration.getTime(),
-    set: (otpExpiration) => new Date(otpExpiration),
   },
   myCustomer: [
     {
